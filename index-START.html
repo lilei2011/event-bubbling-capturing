@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Understanding JavaScript's Capture</title>
+</head>
+<body class="bod">
+  <div class="container" id="bubbling">
+    <h2>Event Bubbling</h2>
+    <div class="one">one
+      <div class="two">two
+        <div class="three">three
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" id="capturing">
+    <h2>Event Capturing</h2>
+    <div class="one">one
+      <div class="two">two
+        <div class="three">three
+        </div>
+      </div>
+    </div>
+  </div>
+<style>
+  html {
+    //box-sizing: border-box;
+  }
+  *, *:before, *:after { box-sizing: inherit; }
+
+  div {
+    //width:100%;
+    padding:60px;
+  }
+  .container {
+    display: table-cell;
+  }
+
+  .one {
+    background: thistle;
+  }
+
+  .two {
+    background:mistyrose;
+  }
+
+  .three {
+    background:coral;
+  }
+</style>
+
+<button></button>
+<script>
+  const bone = document.querySelector("#bubbling .one");
+  const btwo = document.querySelector("#bubbling .two");
+  const bthree = document.querySelector("#bubbling .three");
+
+//Solution 1:
+  // function bubble(e){
+  //   //alert(e.target.className);
+  //   //alert("click");
+  //   alert(this.classList.value);
+  //   //e.stopPropagation();
+  // }
+  // bone.addEventListener("click", bubble);
+  // btwo.addEventListener("click", bubble);
+  // bthree.addEventListener("click", bubble);
+
+//solution 2: 
+bone.addEventListener("click", function(e){
+  alert(this.className);
+}, false);
+btwo.addEventListener("click", function(e){
+  alert(this.className);
+}, false);
+bthree.addEventListener("click", function(e){
+  alert(this.className);
+}, false);
+
+//solution 3: This is wrong, since arrow function would bind "this" to the window object
+// bone.addEventListener("click", (e) =>{
+//   alert(this.className);
+// });
+// btwo.addEventListener("click", (e) =>{
+//   alert(this.className);
+// });
+// bthree.addEventListener("click", (e) =>{
+//   alert(this.className);
+// });
+
+  const cone = document.querySelector("#capturing .one");
+  const ctwo = document.querySelector("#capturing .two");
+  const cthree = document.querySelector("#capturing .three");
+
+cone.addEventListener("click", function(e){
+  alert(this.className);
+}, true);
+ctwo.addEventListener("click", function(e){
+  alert(this.className);
+}, true);
+cthree.addEventListener("click", function(e){
+  alert(this.className);
+}, true);
+
+
+</script>
+</body>
+</html>
